@@ -21,7 +21,7 @@ Runs the dockerized jupyter-lab server.
 docker-compose up  jupyter
 ```
 
-It copies the source code and the results and models to the docker container in order to analyze them through jupyter. It mounts a volume on folder "jupyter" and maps it to "work/jupyter" in the container so you can persist your modifications in your host if you decide to make some changes in the analysis notebook. It may require to grant permissions so the docker container can write in the original folder.
+It copies the source code and the results and models to the docker container in order to analyze them through jupyter. It mounts a volume on folder *jupyter* and maps it to *work/jupyter* in the container so you can persist your modifications in your host if you decide to make some changes in the analysis notebook. It may require you to grant permissions so the docker container can write in the original folder.
 
 The analytics notebook route in the container is **work/jupyter/result_analysis.ipynb**
 There you'll see:
