@@ -71,3 +71,15 @@ There you can see the command with the arguments. Allowed values are:
     * stcoordconv: Combination of STN and coordconv implementations
 
 If your system lacks of GPU capabilities or you have not enabled the [nvidia-dockercompose integration](https://docs.docker.com/compose/gpu-support/) properly you may have to edit the docker-compose.yml and remove both **runtime: nvidia** refferences in order to be able to launch the project. 
+
+## Results
+
+Here we can see a comparison between 10 runs of different architectures over fashion-MNIST dataset:
+![image](https://user-images.githubusercontent.com/26325749/144834352-2ed3e471-aaf2-4d77-9d14-712db490dcf6.png)
+
+In the jupyter notebook there are also other metrics and visualizations implemented. For example, you can check confusion matrixes over the test set:
+![image](https://user-images.githubusercontent.com/26325749/144834535-54267f7c-fd9b-4554-ac20-ab94705b5d82.png)
+
+And also see how the spatial transform layers transform the imput images in the models that include them:
+![image](https://user-images.githubusercontent.com/26325749/144834651-d9e00112-cfb4-47a2-a337-2c50e6838806.png)
+
