@@ -1,0 +1,17 @@
+# set base image (host OS)
+FROM jupyter/datascience-notebook:latest
+
+# set the working directory in the container
+WORKDIR /home/jovyan
+
+# copy the requirements file to the working directory
+COPY requirements.txt .
+
+# install dependencies
+RUN pip install -r requirements.txt
+
+# copy the rest of the required files
+COPY datasets datasets
+COPY models models
+COPY results results
+COPY src work

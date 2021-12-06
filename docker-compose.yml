@@ -1,0 +1,34 @@
+services:
+  stnet:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    container_name: stnet
+    tty: true
+    ports:
+      - 5000:5000
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./results/:/code/results/
+      - ./models/:/code/models/
+      - ./datasets/:/code/datasets/
+    command: 'python train.py --dataset fashion-mnist --model stcoordconv --epochs 30'
+    runtime: nvidia
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    container_name: jupyter
+    user: root
+    ports:
+      - 8888:8888
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=docker
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./jupyter/:/home/jovyan/work/jupyter/
+    runtime: nvidia
+
