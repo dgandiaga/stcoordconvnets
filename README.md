@@ -38,6 +38,7 @@ docker-compose build stnet
 docker-compose run stnet
 ```
 
+It mounts and maps volumes in folders *results*, *models* and *datasets* so you can persist your trained models and data in your host's route.
 In order to change the parameters you'll have to edit the service configuration in docker-compose.yml file:
 
 ```sh
