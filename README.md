@@ -76,6 +76,7 @@ If your system lacks of GPU capabilities or you have not enabled the [nvidia-doc
 
 ## Results
 
+This visualizations are extracted from the Jupyter notebook provided in jupyter service. 
 Here we can see a comparison between 10 runs of different architectures over fashion-MNIST dataset:
 ![image](https://user-images.githubusercontent.com/26325749/144834352-2ed3e471-aaf2-4d77-9d14-712db490dcf6.png)
 
