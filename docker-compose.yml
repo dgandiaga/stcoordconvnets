@@ -5,8 +5,6 @@ services:
       dockerfile: Dockerfile.train
     container_name: stnet
     tty: true
-    ports:
-      - 5000:5000
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
