@@ -69,3 +69,5 @@ There you can see the command with the arguments. Allowed values are:
     * stnet: vanilla STnet as in https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html
     * coordconv: CNN with coordconv layers instead of classical conv layers as in https://github.com/walsvid/CoordConv
     * stcoordconv: Combination of STN and coordconv implementations
+
+If your system lacks of GPU capabilities or you have not enabled the [nvidia-dockercompose integration](https://docs.docker.com/compose/gpu-support/) properly you may have to edit the docker-compose.yml and remove both **runtime: nvidia** refferences in order to be able to launch the project. 
