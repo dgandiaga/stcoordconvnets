@@ -67,9 +67,9 @@ def get_dataset(name, root='datasets'):
                                                                  [train_length, val_length, test_length],
                                                                  generator=torch.Generator().manual_seed(42))
 
-        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=False, num_workers=4)
-        val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=64, shuffle=False, num_workers=4)
-        test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=64, shuffle=False, num_workers=4)
+        train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32, shuffle=False, num_workers=4)
+        val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=4)
+        test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=False, num_workers=4)
 
     else:
         logging.error(f'Please specify a valid dataset. Dataset specified: {name}')
