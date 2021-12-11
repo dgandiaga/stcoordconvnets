@@ -14,7 +14,7 @@ class STNetBirds(nn.Module):
         self.conv3 = nn.Conv2d(20, 40, kernel_size=5)
         self.conv3_drop = nn.Dropout2d()
         self.fc1 = nn.Linear(16000, 1000)
-        self.fc2 = nn.Linear(1000, 10)
+        self.fc2 = nn.Linear(1000, 200)
 
         # Spatial transformer localization-network
         self.localization = nn.Sequential(
@@ -73,7 +73,7 @@ class ConvNetBirds(nn.Module):
         self.conv3 = nn.Conv2d(20, 40, kernel_size=5)
         self.conv3_drop = nn.Dropout2d()
         self.fc1 = nn.Linear(16000, 1000)
-        self.fc2 = nn.Linear(1000, 10)
+        self.fc2 = nn.Linear(1000, 200)
 
     def forward(self, x):
         # Perform the usual forward pass
@@ -96,7 +96,7 @@ class CoordConvNetBirds(nn.Module):
         self.coordconv2_drop = nn.Dropout2d()
         self.coordconv3_drop = nn.Dropout2d()
         self.fc1 = nn.Linear(16000, 1000)
-        self.fc2 = nn.Linear(1000, 10)
+        self.fc2 = nn.Linear(1000, 200)
 
     def forward(self, x):
         # Perform the usual forward pass
@@ -119,7 +119,7 @@ class STCoordNetBirds(nn.Module):
         self.coordconv3 = CoordConv2d(20, 40, 5)
         self.coordconv3_drop = nn.Dropout2d()
         self.fc1 = nn.Linear(16000, 1000)
-        self.fc2 = nn.Linear(1000, 10)
+        self.fc2 = nn.Linear(1000, 200)
 
         # Spatial transformer localization-network
         self.localization = nn.Sequential(
