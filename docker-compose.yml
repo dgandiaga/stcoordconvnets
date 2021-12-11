@@ -1,9 +1,9 @@
 services:
-  stnet:
+  train:
     build:
       context: .
-      dockerfile: Dockerfile.train
-    container_name: stnet
+      dockerfile: docker/Dockerfile.train
+    container_name: train
     tty: true
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
@@ -11,13 +11,13 @@ services:
       - ./results/:/code/results/
       - ./models/:/code/models/
       - ./datasets/:/code/datasets/
-    command: 'python train.py --dataset fashion-mnist --model stcoordconv --epochs 30'
+    command: 'python train.py --dataset mnist --model stcoordconv --epochs 30'
     runtime: nvidia
 
   jupyter:
     build:
       context: .
-      dockerfile: Dockerfile.jupyter
+      dockerfile: docker/Dockerfile.jupyter
     container_name: jupyter
     user: root
     ports:
