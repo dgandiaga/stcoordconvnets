@@ -16,6 +16,7 @@ from datasets import get_dataset
 class TestDatasets(unittest.TestCase):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     dataset_names = ['mnist', 'fashion-mnist']
     model_names = ['convnet', 'stnet', 'coordconv', 'stcoordconv']
@@ -25,6 +26,7 @@ class TestDatasets(unittest.TestCase):
         for dataset in self.dataset_names:
             train_loader, val_loader, test_loader = get_dataset(dataset)
             data, target = next(iter(train_loader))
+            data, target = data.to(self.device), target.to(self.device)
 
             self.assertEqual(data.shape[0], 64)
             self.assertEqual(data.shape[1], 1)
@@ -33,13 +35,13 @@ class TestDatasets(unittest.TestCase):
 
             for name in self.model_names:
                 if name == 'stnet':
-                    model = STNet()
+                    model = STNet().to(self.device)
                 elif name == 'convnet':
-                    model = ConvNet()
+                    model = ConvNet().to(self.device)
                 elif name == 'coordconv':
-                    model = CoordConvNet()
+                    model = CoordConvNet().to(self.device)
                 elif name == 'stcoordconv':
-                    model = STCoordNet()
+                    model = STCoordNet().to(self.device)
                 else:
                     logging.error(f'Please specify a valid model. Model specified: {name}')
 
@@ -52,21 +54,22 @@ class TestDatasets(unittest.TestCase):
 
         train_loader, val_loader, test_loader = get_dataset('birds')
         data, target = next(iter(train_loader))
+        data, target = data.to(self.device), target.to(self.device)
 
-        self.assertEqual(data.shape[0], 32)
+        self.assertEqual(data.shape[0], 16)
         self.assertEqual(data.shape[1], 3)
         self.assertEqual(data.shape[2], 200)
         self.assertEqual(data.shape[3], 200)
 
         for name in self.model_names:
             if name == 'stnet':
-                model = STNetBirds()
+                model = STNetBirds().to(self.device)
             elif name == 'convnet':
-                model = ConvNetBirds()
+                model = ConvNetBirds().to(self.device)
             elif name == 'coordconv':
-                model = CoordConvNetBirds()
+                model = CoordConvNetBirds().to(self.device)
             elif name == 'stcoordconv':
-                model = STCoordNetBirds()
+                model = STCoordNetBirds().to(self.device)
             else:
                 logging.error(f'Please specify a valid model. Model specified: {name}')
 
