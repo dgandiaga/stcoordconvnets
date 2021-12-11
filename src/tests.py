@@ -8,6 +8,8 @@ from torchvision import transforms
 import logging
 
 from models import STNet, ConvNet, CoordConvNet, STCoordNet
+from models_birds import STNetBirds, ConvNetBirds, CoordConvNetBirds, STCoordNetBirds
+
 from datasets import get_dataset
 
 
@@ -21,7 +23,7 @@ class TestDatasets(unittest.TestCase):
     def test_datasets_models_compatibility(self):
 
         for dataset in self.dataset_names:
-            train_loader, val_loader, test_loader = get_dataset('mnist')
+            train_loader, val_loader, test_loader = get_dataset(dataset)
             data, target = next(iter(train_loader))
 
             self.assertEqual(data.shape[0], 64)
@@ -45,6 +47,33 @@ class TestDatasets(unittest.TestCase):
 
                 self.assertEqual(output.shape[0], target.shape[0])
                 logging.info(f'Tested compatibility between {dataset} and {name}')
+
+    def test_birds_compatibility(self):
+
+        train_loader, val_loader, test_loader = get_dataset('birds')
+        data, target = next(iter(train_loader))
+
+        self.assertEqual(data.shape[0], 32)
+        self.assertEqual(data.shape[1], 3)
+        self.assertEqual(data.shape[2], 200)
+        self.assertEqual(data.shape[3], 200)
+
+        for name in self.model_names:
+            if name == 'stnet':
+                model = STNetBirds()
+            elif name == 'convnet':
+                model = ConvNetBirds()
+            elif name == 'coordconv':
+                model = CoordConvNetBirds()
+            elif name == 'stcoordconv':
+                model = STCoordNetBirds()
+            else:
+                logging.error(f'Please specify a valid model. Model specified: {name}')
+
+            output = model(data)
+
+            self.assertEqual(output.shape[0], target.shape[0])
+            logging.info(f'Tested compatibility between birds and {name}')
 
 
 if __name__ == '__main__':
