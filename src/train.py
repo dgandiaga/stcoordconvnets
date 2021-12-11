@@ -113,8 +113,8 @@ def train_model(name, dataset, epochs=30):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Training loop')
-    parser.add_argument('--dataset', required=True, help='dataset options: mnist, fmnist or birds')
-    parser.add_argument('--model', required=True, help='model options: convnet, stnet, coordstnet')
+    parser.add_argument('--dataset', required=True, choice=['mnist', 'fashion-mnist', 'birds'], help='dataset')
+    parser.add_argument('--model', required=True, choice=['convnet', 'stnet', 'coordconv', 'coordstnet'], help='model architecture')
     parser.add_argument('--epochs', help='epoch number', type=int)
     args = parser.parse_args()
     train_model(args.model, args.dataset, args.epochs)
