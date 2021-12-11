@@ -18,6 +18,7 @@ import torch.nn.functional as F
 
 # Project imports
 from models import STNet, ConvNet, CoordConvNet, STCoordNet
+from models_birds import STNetBirds, ConvNetBirds, CoordConvNetBirds, STCoordNetBirds
 from datasets import get_dataset
 
 
@@ -31,20 +32,34 @@ def train_model(name, dataset, epochs=30):
 
     train_loader, test_loader, _ = get_dataset(dataset)
 
-    if name == 'stnet':
-        model = STNet().to(device)
-    elif name == 'convnet':
-        model = ConvNet().to(device)
-    elif name == 'coordconv':
-        model = CoordConvNet().to(device)
-    elif name == 'stcoordconv':
-        model = STCoordNet().to(device)
+    if dataset == 'birds':
+        if name == 'stnet':
+            model = STNetBirds().to(device)
+        elif name == 'convnet':
+            model = ConvNetBirds().to(device)
+        elif name == 'coordconv':
+            model = CoordConvNetBirds().to(device)
+        elif name == 'stcoordconv':
+            model = STCoordNetBirds().to(device)
+        else:
+            logging.error(f'Please specify a valid model. Model specified: {name}')
     else:
-        logging.error(f'Please specify a valid model. Model specified: {name}')
+        if name == 'stnet':
+            model = STNet().to(device)
+        elif name == 'convnet':
+            model = ConvNet().to(device)
+        elif name == 'coordconv':
+            model = CoordConvNet().to(device)
+        elif name == 'stcoordconv':
+            model = STCoordNet().to(device)
+        else:
+            logging.error(f'Please specify a valid model. Model specified: {name}')
 
     if dataset == 'mnist':
         optimizer = optim.SGD(model.parameters(), lr=0.005)
     elif dataset == 'fashion-mnist':
+        optimizer = optim.SGD(model.parameters(), lr=0.01)
+    elif dataset == 'birds':
         optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 
@@ -113,8 +128,8 @@ def train_model(name, dataset, epochs=30):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Training loop')
-    parser.add_argument('--dataset', required=True, choice=['mnist', 'fashion-mnist', 'birds'], help='dataset')
-    parser.add_argument('--model', required=True, choice=['convnet', 'stnet', 'coordconv', 'coordstnet'], help='model architecture')
+    parser.add_argument('--dataset', required=True, choices=['mnist', 'fashion-mnist', 'birds'], help='dataset')
+    parser.add_argument('--model', required=True, choices=['convnet', 'stnet', 'coordconv', 'coordstnet'], help='model architecture')
     parser.add_argument('--epochs', help='epoch number', type=int)
     args = parser.parse_args()
     train_model(args.model, args.dataset, args.epochs)
