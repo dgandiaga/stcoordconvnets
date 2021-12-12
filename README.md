@@ -87,7 +87,10 @@ And also see how the spatial transform layers transform the imput images in the 
 ![image](https://user-images.githubusercontent.com/26325749/144834651-d9e00112-cfb4-47a2-a337-2c50e6838806.png)
 
 ## Bird Classification Dataset
-I have added implementations for the bird classification dataset [Caltech-UCSD Birds-200-2011](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html) they use in the [Spatial Transform Netrworks](https://arxiv.org/abs/1506.02025) paper. I've tried to expand the implementation in https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html adding more complexity to the localization layer, but I've not gotten the expected results. Since the authors didn't release their code I have adapted this other implementation [STN with ResNext50 as backbone](https://github.com/hyperfraise/Pytorch-StNet) removing the use of initialized weights, since the goal of this project is comparing the results of the architectures and the convergence speed instead of training a state-of-the-art model, and updating the input structure which was designed for video instead of images. You can test them by choosing **birds** as dataset and **resnext** or **stresnext** as model.
+I have added implementations for the bird classification dataset [Caltech-UCSD Birds-200-2011](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html) they use in the [Spatial Transform Netrworks](https://arxiv.org/abs/1506.02025) paper:
+![image](https://user-images.githubusercontent.com/26325749/145714926-c1d5aff5-5392-4539-aa0e-8fd9c07f2e8f.png)
+
+I've tried to expand the implementation in https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html adding more complexity to the localization layer, but I've not gotten the expected results. Since the authors didn't release their code I have adapted this other implementation [STN with ResNext50 as backbone](https://github.com/hyperfraise/Pytorch-StNet) removing the use of initialized weights, since the goal of this project is comparing the results of the architectures and the convergence speed instead of training a state-of-the-art model, and updating the input structure which was designed for video instead of images. You can test them by choosing **birds** as dataset and **resnext** or **stresnext** as model.
 
 The results don't seem to match the resnext baseline:
 insdfsdfa
