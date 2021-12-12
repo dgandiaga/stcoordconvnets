@@ -34,9 +34,9 @@ def train_model(name, dataset, epochs=30):
 
     if dataset == 'birds':
         if name == 'stresnext':
-            model = STResnextBirds().to(self.device)
+            model = STResnextBirds().to(device)
         elif name == 'resnext':
-            model = ResnextBirds().to(self.device)
+            model = ResnextBirds().to(device)
         else:
             logging.error(f'Please specify a valid model. Model specified: {name}')
     else:
@@ -107,8 +107,7 @@ def train_model(name, dataset, epochs=30):
         train_correct = train(epoch)
         test_loss, correct = test()
         test_results.loc[len(test_results)] = [name, dataset, params, int(time.time() - start), epoch, test_loss,
-                                               correct, correct / len(test_loader.dataset),
-                                               train_correct / len(train_loader.dataset)]
+                                               correct, correct / len(test_loader.dataset)]
         logging.info(f'Epoch {epoch} finished with train accuracy: {train_correct}/{len(train_loader.dataset)} test loss: {test_loss} and accuracy: '
                      f'{correct}/{len(test_loader.dataset)}')
         if correct > predicted:
