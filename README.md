@@ -77,7 +77,7 @@ If your system lacks of GPU capabilities or you have not enabled the [nvidia-doc
 ## Results
 
 This visualizations are extracted from the Jupyter notebook provided in jupyter service. 
-Here we can see a comparison between 10 runs of different architectures over fashion-MNIST dataset:
+Here we can see a comparison between different architectures over fashion-MNIST dataset, averaged over many runs:
 ![image](https://user-images.githubusercontent.com/26325749/144834352-2ed3e471-aaf2-4d77-9d14-712db490dcf6.png)
 
 In the jupyter notebook there are also other metrics and visualizations implemented. For example, you can check confusion matrixes over the test set:
@@ -86,3 +86,11 @@ In the jupyter notebook there are also other metrics and visualizations implemen
 And also see how the spatial transform layers transform the imput images in the models that include them:
 ![image](https://user-images.githubusercontent.com/26325749/144834651-d9e00112-cfb4-47a2-a337-2c50e6838806.png)
 
+## Bird Classification Dataset
+I have added implementations for the bird classification dataset [Caltech-UCSD Birds-200-2011](http://www.vision.caltech.edu/visipedia/CUB-200-2011.html) they use in the [Spatial Transform Netrworks](https://arxiv.org/abs/1506.02025) paper. I've tried to expand the implementation in https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html adding more complexity to the localization layer, but I've not gotten the expected results. Since the authors didn't release their code I have adapted this other implementation [STN with ResNext50 as backbone](https://github.com/hyperfraise/Pytorch-StNet) removing the use of initialized weights, since the goal of this project is comparing the results of the architectures and the convergence speed instead of training a state of the art model, and updating the input structure which was designed for video instead of images. You can test them by choosing **birds** as dataset and **resnext** or **stresnext** as model.
+
+The results doesn't seem to match the resnext baseline:
+insdfsdfa
+
+My conclussion is that **STNs** are an interesting technology but their implementation over different state of the art challenges is not as straight forward as it may seem, and the literature about them is still in an early stage. They seem to require extensive tunning in the architecture in order to adapt them to a complex problem, and I'd choose them as an alternative for improving an already developed model but I wouldn't start from here if the goal is fast-prototyping a new use case. A problem that they already mentioned in the paper is that they are **prone to overfitting**. My experimets corroborate that since the **training error** was **smaller** than in the resnext baseline but the **validation error** was **higher**.
+Regarding my experiments they also **increase training time up to ~140%**, so you should consider that if you have time or infraestructure restrains. This seems worth in MNIST and fashion-MNIST since STN-based models go several epochs ahead of non-STN models, but it may not be justified in other contexts.
