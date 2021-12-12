@@ -14,4 +14,5 @@ RUN pip install -r requirements.txt
 COPY datasets datasets
 COPY models models
 COPY results results
+COPY model_definitions work
 COPY src work
