@@ -56,7 +56,7 @@ def get_dataset(name, root='datasets'):
 
         transform = transforms.Compose([transforms.ToTensor(),
                                          transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                                         transforms.Resize([200, 200])])
+                                         transforms.Resize([224, 224])])
         dataset = BirdDataset(transform)
 
         train_length = int(math.floor(len(dataset)*0.8))
@@ -67,7 +67,7 @@ def get_dataset(name, root='datasets'):
                                                                  [train_length, val_length, test_length],
                                                                  generator=torch.Generator().manual_seed(42))
 
-        batch_size = 16
+        batch_size = 8
         train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle=False, num_workers=4)
         val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=4)
         test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=4)
