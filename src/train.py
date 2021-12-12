@@ -18,7 +18,7 @@ import torch.nn.functional as F
 
 # Project imports
 from models import STNet, ConvNet, CoordConvNet, STCoordNet
-from models_birds import STNetBirds, ConvNetBirds, CoordConvNetBirds, STCoordNetBirds
+from models_birds import STResnextBirds, ResnextBirds
 from datasets import get_dataset
 
 
