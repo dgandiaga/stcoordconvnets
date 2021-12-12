@@ -34,8 +34,8 @@ There you'll see:
 The training loop is also dockerized. You just need to run:
 
 ```sh
-docker-compose build stnet
-docker-compose run stnet
+docker-compose build train
+docker-compose run train
 ```
 
 It mounts and maps volumes in folders *results*, *models* and *datasets* so you can persist your trained models and data in your host's route.
@@ -43,12 +43,11 @@ It mounts and maps volumes in folders *results*, *models* and *datasets* so you 
 In order to change the parameters you'll have to edit the service configuration in docker-compose.yml file:
 
 ```sh
-services:
-  stnet:
+  train:
     build:
       context: .
-      dockerfile: Dockerfile.train
-    container_name: stnet
+      dockerfile: docker/Dockerfile.train
+    container_name: train
     tty: true
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
@@ -56,7 +55,7 @@ services:
       - ./results/:/code/results/
       - ./models/:/code/models/
       - ./datasets/:/code/datasets/
-    command: 'python train.py --dataset fashion-mnist --model stcoordconv --epochs 30'
+    command: 'python train.py --dataset fashion-mnist --model stnet --epochs 20'
     runtime: nvidia
 ```
 
