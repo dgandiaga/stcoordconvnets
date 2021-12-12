@@ -90,12 +90,15 @@ I have added implementations for the bird classification dataset [Caltech-UCSD B
 
 ![image](https://user-images.githubusercontent.com/26325749/145714926-c1d5aff5-5392-4539-aa0e-8fd9c07f2e8f.png)
 
+You'll have to download the dataset from the original source and extract it in **dataset** folder. For launching the training there's a different **train-birds** service in the **docker-compose** file since the tests are different, the ones here check size compatibilities with the definitions of the models and I didn't wanted them to interfere with the first part of the project which should be able to be executed without having this dataset.
+
 I've tried to expand the implementation in https://pytorch.org/tutorials/intermediate/spatial_transformer_tutorial.html adding more complexity to the localization layer, but I've not gotten the expected results. Since the authors didn't release their code I have adapted this other implementation [STN with ResNext50 as backbone](https://github.com/hyperfraise/Pytorch-StNet) removing the use of initialized weights, since the goal of this project is comparing the results of the architectures and the convergence speed instead of training a state-of-the-art model, and updating the input structure which was designed for video instead of images. You can test them by choosing **birds** as dataset and **resnext** or **stresnext** as model.
 
 The results don't seem to match the resnext baseline:
 
 ![image](https://user-images.githubusercontent.com/26325749/145717689-bc049d3f-8f1d-4f86-95c9-2187f2648155.png)
 
+The ST-ResNext models are too big for being uploaded to GitHub (100Mb max). Six different versions of them can be found here: https://drive.google.com/file/d/1efcWaiE-1mt1b_FDU-9XPo7Lq3cK3eSP/view?usp=sharing
 
 My conclusion is that **STNs** are an interesting technology but their implementation over different state-of-the-art challenges is not as straight forward as it may seem, and the literature about them is still in an early stage. They seem to require extensive running in the architecture in order to adapt them to a complex problem, and I'd choose them as an alternative for improving an already developed model, but I wouldn't start from here if the goal is fast-prototyping a new use case. A problem that they already mentioned in the paper is that they are **prone to overfitting**. My experiments corroborate that since the **training error** was **smaller** than in the resnext baseline but the **validation error** was **higher**.
 Regarding my experiments they also **increase training time up to ~140%**, so you should consider that if you have time or infrastructure restrains. This seems worth in MNIST and fashion-MNIST since STN-based models go several epochs ahead of non-STN models, but it may not be justified in other contexts.
