@@ -217,7 +217,7 @@ def load_weights(model, state):
     return model
 
 
-def stnet50(**kwargs):
+def stnet50(input_channels=3, num_classes=200, T=1, N=1, pretrained=False):
     """
     Construct stnet with a SE-Resnext 50 backbone.
     """
@@ -232,15 +232,18 @@ def stnet50(**kwargs):
         input_3x3=False,
         downsample_kernel_size=1,
         downsample_padding=0,
-        **kwargs,
+        input_channels=input_channels,
+        num_classes=num_classes,
+        T=T,
+        N=N
     )
-    '''
-    model = load_weights(
-        model,
-        pretrainedmodels.__dict__["se_resnext50_32x4d"](
-            num_classes=1000, pretrained="imagenet"
-        ).state_dict(),
-    )
-    '''
+    if pretrained:
+        model = load_weights(
+            model,
+            pretrainedmodels.__dict__["se_resnext50_32x4d"](
+                num_classes=num_classes, pretrained="imagenet"
+            ).state_dict(),
+        )
+
 
     return model

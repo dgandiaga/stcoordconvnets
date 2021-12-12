@@ -81,7 +81,7 @@ def get_dataset(name, root='datasets'):
 class BirdDataset(torch.utils.data.Dataset):
     def __init__(self,  transform=None):
         super(BirdDataset, self).__init__()
-        self.data = datasets.ImageFolder('datasets/CUB_200_2011',  transform)    # Create data from folder
+        self.data = datasets.ImageFolder('datasets/CUB_200_2011/images',  transform)    # Create data from folder
 
     def __getitem__(self, idx):
         x, y = self.data[idx]

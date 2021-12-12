@@ -17,7 +17,7 @@ COPY datasets datasets
 COPY model_definitions .
 
 # testing
-RUN python -m unittest tests.TestDatasets
+RUN python -m unittest tests_birds.TestDatasets
 
 # command to run on container start
 CMD [ "python", "./train.py" ]

@@ -4,14 +4,13 @@ services:
       context: .
       dockerfile: docker/Dockerfile.train
     container_name: train
-    tty: true
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
     volumes:
       - ./results/:/code/results/
       - ./models/:/code/models/
       - ./datasets/:/code/datasets/
-    command: 'python train.py --dataset mnist --model stcoordconv --epochs 30'
+    command: 'python train.py --dataset fashion-mnist --model stnet --epochs 10'
     runtime: nvidia
 
   jupyter:
@@ -30,3 +29,16 @@ services:
       - ./jupyter/:/home/jovyan/work/jupyter/
     runtime: nvidia
 
+  train-birds:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.train_birds
+    container_name: train-birds
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./results/:/code/results/
+      - ./models/:/code/models/
+      - ./datasets/:/code/datasets/
+    command: 'python train.py --dataset birds --model stresnext --epochs 20'
+    runtime: nvidia

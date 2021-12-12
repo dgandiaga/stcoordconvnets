@@ -11,7 +11,7 @@ from coordconv import CoordConv2d
 class STResnextBirds(nn.Module):
     def __init__(self):
         super(STResnextBirds, self).__init__()
-        self.stnet = stnet50(input_channels=3, num_classes=200, T=1, N=1)
+        self.stnet = stnet50(input_channels=3, num_classes=200, T=1, N=1, pretrained=False)
 
     def forward(self, x):
         # Perform the usual forward pass
