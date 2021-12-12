@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.models import resnext50
+from torchvision.models import resnext50_32x4d
 from stnet import stnet50
 
 
@@ -22,7 +22,7 @@ class STResnextBirds(nn.Module):
 class ResnextBirds(nn.Module):
     def __init__(self):
         super(ResnextBirds, self).__init__()
-        self.resnext50 = resnext50(pretrained=False)
+        self.resnext50 = resnext50_32x4d(pretrained=False)
 
     def forward(self, x):
         # Perform the usual forward pass
