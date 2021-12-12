@@ -33,14 +33,10 @@ def train_model(name, dataset, epochs=30):
     train_loader, test_loader, _ = get_dataset(dataset)
 
     if dataset == 'birds':
-        if name == 'stnet':
-            model = STNetBirds().to(device)
-        elif name == 'convnet':
-            model = ConvNetBirds().to(device)
-        elif name == 'coordconv':
-            model = CoordConvNetBirds().to(device)
-        elif name == 'stcoordconv':
-            model = STCoordNetBirds().to(device)
+        if name == 'stresnext':
+            model = STResnextBirds().to(self.device)
+        elif name == 'resnext':
+            model = ResnextBirds().to(self.device)
         else:
             logging.error(f'Please specify a valid model. Model specified: {name}')
     else:
@@ -60,12 +56,13 @@ def train_model(name, dataset, epochs=30):
     elif dataset == 'fashion-mnist':
         optimizer = optim.SGD(model.parameters(), lr=0.01)
     elif dataset == 'birds':
-        optimizer = optim.SGD(model.parameters(), lr=0.01)
+        optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 
     def train(epoch):
         model.train()
         logging.info(f'Epoch {epoch}')
+        correct = 0
 
         for batch_idx, (data, target) in tqdm.tqdm(enumerate(train_loader), total=len(train_loader)):
             data, target = data.to(device), target.to(device)
@@ -75,6 +72,10 @@ def train_model(name, dataset, epochs=30):
             loss = F.nll_loss(output, target)
             loss.backward()
             optimizer.step()
+
+            pred = output.max(1, keepdim=True)[1]
+            correct += pred.eq(target.view_as(pred)).sum().item()
+        return correct
 
     def test():
         with torch.no_grad():
@@ -103,12 +104,12 @@ def train_model(name, dataset, epochs=30):
     predicted = 0
     for epoch in range(1, epochs + 1):
 
-        train(epoch)
+        train_correct = train(epoch)
         test_loss, correct = test()
         test_results.loc[len(test_results)] = [name, dataset, params, int(time.time() - start), epoch, test_loss,
-                                               correct,
-                                               correct / len(test_loader.dataset)]
-        logging.info(f'Epoch {epoch} finished with test loss: {test_loss} and accuracy: '
+                                               correct, correct / len(test_loader.dataset),
+                                               train_correct / len(train_loader.dataset)]
+        logging.info(f'Epoch {epoch} finished with train accuracy: {train_correct}/{len(train_loader.dataset)} test loss: {test_loss} and accuracy: '
                      f'{correct}/{len(test_loader.dataset)}')
         if correct > predicted:
             logging.info(f'Model accuracy improved from {predicted}/{len(test_loader.dataset)} to '
@@ -129,7 +130,15 @@ def train_model(name, dataset, epochs=30):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Training loop')
     parser.add_argument('--dataset', required=True, choices=['mnist', 'fashion-mnist', 'birds'], help='dataset')
-    parser.add_argument('--model', required=True, choices=['convnet', 'stnet', 'coordconv', 'coordstnet'], help='model architecture')
-    parser.add_argument('--epochs', help='epoch number', type=int)
+    parser.add_argument('--model', required=True, type=str, help='model architecture')
+    parser.add_argument('--epochs', help='epoch number', default=10, type=int)
     args = parser.parse_args()
+
+    models_available = {'mnist': ['convnet', 'stnet', 'coordconv', 'coordstnet'],
+                        'fashion-mnist': ['convnet', 'stnet', 'coordconv', 'coordstnet'],
+                        'birds': ['resnext', 'stresnext']}
+    
+    if args.model not in models_available[args.dataset]:
+        parser.error(f'For dataset {args.dataset} implemented models are {models_available[args.dataset]}')
+
     train_model(args.model, args.dataset, args.epochs)
